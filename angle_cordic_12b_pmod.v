@@ -3,7 +3,7 @@
 
 
 
-module angle_cordic_12b_pmod#(parameter width = 12, CNT = 65536, freq_width = 16) (clk1, resetn, freq, pwm_data, pwm_led, waveform_sel);
+module angle_cordic_12b_pmod#(parameter width = 12, CNT = 524288, freq_width = 12) (clk1, resetn, freq, pwm_data, pwm_led, waveform_sel);
 
   
 // Inputs
@@ -33,12 +33,15 @@ end
 
 wire  signed [width-1:0] sine;
 wire  signed [width-1:0] cosine;
+wire signed [width-1:0] angleout;
+wire signed [width-5:0] angleout_vga = angleout[11:4];
 wire  [width-5:0] sample;
 
 	angle_cordic_12b#(.width(width), .CNT(CNT), .freq_width(freq_width))  angle_cordic_12b (
      .clock     (clock),
      .resetn     (reset_reg),
 	 .freq   (freq),
+	 .angleout(angleout),
 	 //.start (start_reg),
 	 .SINout       (sine),
 	 .COSout       (cosine));
