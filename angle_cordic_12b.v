@@ -2,7 +2,7 @@
 
 
 
-module angle_cordic_12b#(parameter width = 12, CNT = 65536, freq_width = 16) (clock, resetn, freq, SINout, COSout);
+module angle_cordic_12b#(parameter width = 12, CNT = 65536, freq_width = 16) (clock, resetn, freq, SINout, COSout,angleout);
 
   
 // Inputs
@@ -12,7 +12,7 @@ module angle_cordic_12b#(parameter width = 12, CNT = 65536, freq_width = 16) (cl
   
   output reg signed [width-1:0] SINout;
   output reg signed [width-1:0] COSout;
-  
+  output reg signed [width-1:0] angleout;
   wire [width-1:0] x_start,y_start;
   
   wire [width-1:0] angle;
@@ -29,6 +29,7 @@ module angle_cordic_12b#(parameter width = 12, CNT = 65536, freq_width = 16) (cl
 		begin
 			SINout <= (!resetn) ? 0 : SINout_wire;
 			COSout <= (!resetn) ? 0 : COSout_wire;
+			angleout <= (!resetn) ? 0 : angle;
 		end
 		
 //ila_0 ila (
