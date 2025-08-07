@@ -21,10 +21,6 @@ set_property -dict { PACKAGE_PIN V2    IOSTANDARD LVCMOS33 } [get_ports {freq[8]
 set_property -dict { PACKAGE_PIN T3    IOSTANDARD LVCMOS33 } [get_ports {freq[9]}]
 set_property -dict { PACKAGE_PIN T2    IOSTANDARD LVCMOS33 } [get_ports {freq[10]}]
 set_property -dict { PACKAGE_PIN R3    IOSTANDARD LVCMOS33 } [get_ports {freq[11]}]
-set_property -dict { PACKAGE_PIN W2    IOSTANDARD LVCMOS33 } [get_ports {freq[12]}]
-set_property -dict { PACKAGE_PIN U1    IOSTANDARD LVCMOS33 } [get_ports {freq[13]}]
-set_property -dict { PACKAGE_PIN T1    IOSTANDARD LVCMOS33 } [get_ports {freq[14]}]
-set_property -dict { PACKAGE_PIN R2    IOSTANDARD LVCMOS33 } [get_ports {freq[15]}]
 
 
 ## LEDs
