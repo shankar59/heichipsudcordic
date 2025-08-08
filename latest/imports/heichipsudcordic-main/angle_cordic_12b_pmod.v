@@ -1,17 +1,17 @@
 `timescale 1ns / 1ps
 
-module angle_cordic_12b_pmod#(parameter width = 16, CNT = 131072, freq_width = 12) (clk1, reset, freq, mode, r, g, b, hsync, vsync, pwm_data, pwm_led, waveform_sel);
+module angle_cordic_12b_pmod#(parameter width = 16, CNT = 131072, freq_width = 12) (clk1, reset, freq, mode, r, g, b, hsync, vsync, pwm_data, waveform_sel);
 
 // Inputs
   input clk1;
   input reset;
   input  wire  mode;
   input [freq_width-1:0] freq;
-  input waveform_sel;
+  input [1:0] waveform_sel;
 
 //Outputs  
 output pwm_data;
-output pwm_led;
+//output pwm_led;
 output wire [1:0]   r;
 output wire [1:0]   g;
 output wire [1:0]   b;
@@ -25,49 +25,33 @@ wire clock = clk1;
 //    .clock(clock),     // output clock
 //   // Clock in ports
 //    .clk1(clk1));      // input clk1
-//wire resetn = !resetn1;
+wire resetn = !reset;
 reg  reset_reg;
-reg pwm_data_reg;
-reg pwm_pulse;
-reg [29:0] counter;
 always @ (posedge clock) begin
-reset_reg <= (reset) ? 1'b0 : 1'b1;
+	reset_reg <= (resetn) ? 1'b1 : 1'b0;
 end
 
 wire  signed [width-1:0] sine;
 wire  signed [width-1:0] cosine;
-wire signed [width-1:0] angleout;
-wire signed [width-5:0] angleout_vga = angleout[11:4];
-wire  [width-5:0] sample;
+wire signed [width-1:0] tri_amp;
+wire signed [width-1:0] sqr_amp;
+wire  [width-1:0] sample;	
+//wire  [width-5:0] sample;
 
 	angle_cordic_12b#(.width(width), .CNT(CNT), .freq_width(freq_width))  angle_cordic_12b (
      .clock     (clock),
      .resetn     (reset_reg),
 	 .freq   (freq),
-	 .angleout(angleout),
+	 .tri_amp(tri_amp),
+	 .sqr_amp(sqr_amp),
 	 //.start (start_reg),
 	 .SINout       (sine),
 	 .COSout       (cosine));
 	 
-	 
-	vga_top u_vga_top (
-        .clk100(clk1),
-        .reset(!reset),
-        .mode(mode),
-        .cordic_val(sample),
-        .cosine_val(cosine[11:4]),
-        .sine_val(sine[11:4]),
-        .r(r),
-        .g(g),
-        .b(b),
-        .hsync(hsync),
-        .vsync(vsync)
-    );
-    
-	assign sample = (waveform_sel == 1'b1) ? sine[11:4] : cosine[11:4];
+	 assign sample = (waveform_sel == 2'b00) ? sine : (waveform_sel == 2'b01) ? cosine : (waveform_sel == 2'b10) ? tri_amp : sqr_amp;
 	 
 	 //pmod_cont pmod_cont(.clock(clock),.cs(cs),.sclk(sclk), .resetn(reset_reg), .data(data),.datain(sine));
-	pmod_pwm i_pwm(
+		 pmod_pwm# (.width(width)) i_pwm(
         .clk(clock),
         .rst_n(reset_reg),
 
@@ -77,10 +61,26 @@ wire  [width-5:0] sample;
     );
     
     
-    always @ (posedge clock)
-    begin
-         pwm_pulse <= !reset_reg ? 1'b0 : pwm_data ? ~pwm_pulse : pwm_pulse;    
-    end    
-    assign pwm_led = pwm_pulse;
+//	 assign pwm_led = pwm_data;
 	 
+	 
+	vga_top u_vga_top (
+        .clk100(clk1),
+        .reset(!reset),
+        .mode(mode),
+		.cordic_val(sample),
+		.cosine_val(cosine),
+		.sine_val(sine),
+        .r(r),
+        .g(g),
+        .b(b),
+        .hsync(hsync),
+        .vsync(vsync)
+    );
+    
+
+    
+
+	 
+
 endmodule
