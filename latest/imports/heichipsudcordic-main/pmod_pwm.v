@@ -27,12 +27,11 @@ module pmod_pwm (
 );
 
     reg signed [7:0] sample_reg;
-    localparam SAMPLE = 122;
     always @(posedge clk)
          begin
             sample_reg <= !rst_n ? 8'h0 : sample;
-            pwm <= !rst_n ? 1'b0 : (sample < sample_reg) ? (sample_reg >= SAMPLE) ? 1'b1 : 1'b0 : 1'b0;
-
+            pwm <= !rst_n ? 1'b0 : (sample >0) ? 1'b1 : 1'b0;
+//            pwm <= !rst_n ? 1'b0 : (sample < 0) ? (sample_reg > 0) ? 1'b1 : 1'b0 : 1'b0;
     end
 
 endmodule
