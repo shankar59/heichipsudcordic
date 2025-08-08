@@ -7,9 +7,9 @@ entity vga_top is
         clk100    : in  std_logic;
         reset    : in  std_logic;
         mode     : in  std_logic; -- '0' = waveform, '1' = vector mode
-        cordic_val : in signed(7 downto 0); -- -128 to +127
-        cosine_val : in signed(7 downto 0); -- e.g. from CORDIC output
-        sine_val   : in signed(7 downto 0);
+        cordic_val : in signed(15 downto 0); -- -128 to +127
+        cosine_val : in signed(15 downto 0); -- e.g. from CORDIC output
+        sine_val   : in signed(15 downto 0);
         r        : out std_logic_vector(1 downto 0); -- VGA Red[1:0]
         g        : out std_logic_vector(1 downto 0); -- VGA Green[1:0]
         b        : out std_logic_vector(1 downto 0); -- VGA Blue[1:0]
@@ -53,15 +53,15 @@ begin
     process(clk100, pixel_clk_en)
     begin
         if rising_edge(clk100) and pixel_clk_en = '1' then
-            v_pos <= CENTER_Y - (to_integer(cordic_val) * AMPLITUDE_SCALE / 128);
+            v_pos <= CENTER_Y - (to_integer(cordic_val) * AMPLITUDE_SCALE / 32768);
             if v_cnt = v_pos then
                 wave_bit <= '1'; 
             else 
                  wave_bit <= '0';
             end if;
     
-            x_pos <= CENTER_X + (to_integer(cosine_val) * RADIUS / 128);
-            y_pos <= CENTER_Y - (to_integer(sine_val) * RADIUS / 128);
+            x_pos <= CENTER_X + (to_integer(cosine_val) * RADIUS / 32768);
+            y_pos <= CENTER_Y - (to_integer(sine_val) * RADIUS / 32768);
             
             if (h_cnt = x_pos) and (v_cnt = y_pos) then
                 vec_bit <= '1'; 
