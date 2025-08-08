@@ -3,12 +3,12 @@
 
 
 
-module angle_cordic_12b_pmod#(parameter width = 12, CNT = 524288, freq_width = 12) (clk1, resetn, freq, pwm_data, pwm_led, waveform_sel);
+module angle_cordic_12b_pmod#(parameter width = 12, CNT = 131072, freq_width = 12) (clk1, reset, freq, pwm_data, pwm_led, waveform_sel);
 
   
 // Inputs
   input clk1;
-  input resetn;
+  input reset;
   input [freq_width-1:0] freq;
   input waveform_sel;
 
@@ -16,6 +16,7 @@ module angle_cordic_12b_pmod#(parameter width = 12, CNT = 524288, freq_width = 1
 output pwm_data;
 output pwm_led;
 wire clock = clk1;
+wire resetn = !reset;
 // clk_wiz_0 clk_wiz
 //   (
     // Clock out ports
@@ -28,7 +29,7 @@ reg pwm_data_reg;
 reg pwm_pulse;
 reg [29:0] counter;
 always @ (posedge clock) begin
-reset_reg <= (resetn) ? 1'b0 : 1'b1;
+reset_reg <= (resetn) ? 1'b1 : 1'b0;
 end
 
 wire  signed [width-1:0] sine;
