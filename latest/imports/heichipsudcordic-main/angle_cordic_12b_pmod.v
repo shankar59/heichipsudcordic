@@ -66,7 +66,7 @@ wire  [width-1:0] sample;
 	 
 	vga_top u_vga_top (
         .clk100(clk1),
-        .reset(!reset),
+		.reset(reset_reg),
         .mode(mode),
 		.cordic_val(sample),
 		.cosine_val(cosine),
@@ -84,3 +84,4 @@ wire  [width-1:0] sample;
 	 
 
 endmodule
+
