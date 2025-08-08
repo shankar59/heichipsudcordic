@@ -2,7 +2,7 @@
 
 
 
-module angle_cordic_12b#(parameter width = 12, CNT = 65536, freq_width = 16) (clock, resetn, freq, SINout, COSout,angleout);
+module angle_cordic_12b#(parameter width = 12, CNT = 131072, freq_width = 12) (clock, resetn, freq, SINout, COSout,angleout);
 
   
 // Inputs
