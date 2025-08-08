@@ -2,7 +2,7 @@
 
 
 
-module angle_gen_12b#(parameter width = 12, CNT = 524288, freq_width = 12) (clock, resetn, freq, angle, x_start, y_start);
+module angle_gen_12b#(parameter width = 12, CNT = 131072, freq_width = 12) (clock, resetn, freq, angle, x_start, y_start);
 
   
 
@@ -19,9 +19,9 @@ module angle_gen_12b#(parameter width = 12, CNT = 524288, freq_width = 12) (cloc
 	
 	reg [freq_width-1:0] freq_reg;
 	
-	reg [freq_width:0] cnt;
+	reg [freq_width+5:0] cnt;
 	
-	wire [freq_width+7:0] cnt_sum = CNT-(freq_reg<<7);
+	wire [freq_width+5:0] cnt_sum = CNT-(freq_reg<<5);
 	
 	always @ (posedge clock)
 		begin
@@ -45,4 +45,6 @@ module angle_gen_12b#(parameter width = 12, CNT = 524288, freq_width = 12) (cloc
 		x_start <= (!resetn) ? 0 : An;
 		y_start <= (!resetn) ? 0 : 0;
 	end
+	
+	
 endmodule
