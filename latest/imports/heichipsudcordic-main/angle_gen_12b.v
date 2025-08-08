@@ -2,7 +2,7 @@
 
 
 
-module angle_gen_12b#(parameter width = 16, CNT = 131072, freq_width = 12) (clock, resetn, freq, angle, x_start, y_start);
+module angle_gen_12b#(parameter width = 16, CNT = 131072, freq_width = 12) (clock, resetn, freq, angle, x_start, y_start, tri_amp, sqr_amp);
 
   
 
@@ -14,7 +14,7 @@ module angle_gen_12b#(parameter width = 16, CNT = 131072, freq_width = 12) (cloc
 //Outputs
 	output reg  [width-1:0] x_start,y_start; 
 	output reg  [width-1:0] angle;
-    
+    output reg [width-1:0] tri_amp, sqr_amp;
     wire [width-1:0] An = 1215; //2000*0.6073
 	
 	reg [freq_width-1:0] freq_reg;
@@ -46,5 +46,42 @@ module angle_gen_12b#(parameter width = 16, CNT = 131072, freq_width = 12) (cloc
 		y_start <= (!resetn) ? 0 : 0;
 	end
 	
+	reg up;
+	   always @ (posedge clock)
+	begin
+	if(!resetn)
+	up <= 1;
+	else
+	begin
+	   if(tri_amp>1750)
+		  up <= 0;
+	   else if (tri_amp < -1750)
+		  up <= 1;
+	   else up <= up;
+     end
+	end
+	always @ (posedge clock)
+	begin
+	if(!resetn)
+	tri_amp <= 0;
+	else
+	begin
+	   if(up)
+		tri_amp <= (cnt == cnt_sum) ? tri_amp + 8'd16 : tri_amp;
+	   else 
+	    tri_amp <= (cnt == cnt_sum) ? tri_amp - 8'd16 : tri_amp;
+     end
+	end
+	
+	always@(posedge clock)
+	begin
+	if(!resetn)
+    sqr_amp <=  16'd0;
+    else if(tri_amp>=0)
+    sqr_amp <= 16'd2000;
+    else if (tri_amp<0)
+    sqr_amp <= -16'd1999;
+    else sqr_amp <= 16'd0;
+	end
 	
 endmodule
