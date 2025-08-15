@@ -8,7 +8,7 @@ VERILOG_FILES:
 - dir::angle_gen_12b.v
 - dir::cordic_12b.v
 - dir::pmod_pwm.v
-- dir::vga_top.vhd
+- dir::vga_top.v
 
 CLOCK_PORT: clk
 CLOCK_PERIOD: 10 # 10ns = 100MHz
