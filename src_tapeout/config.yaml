@@ -1,0 +1,38 @@
+# LibreLane configuration file
+
+DESIGN_NAME: heichips25_CORDIC
+VERILOG_FILES: 
+- dir::heichips25_CORDIC.sv
+- dir::angle_cordic_12b.v
+- dir::angle_cordic_12b_pmod.v
+- dir::angle_gen_12b.v
+- dir::cordic_12b.v
+- dir::pmod_pwm.v
+- dir::vga_top.vhd
+
+CLOCK_PORT: clk
+CLOCK_PERIOD: 10 # 10ns = 100MHz
+
+# Reduce wasted space
+TOP_MARGIN_MULT: 1
+BOTTOM_MARGIN_MULT: 1
+LEFT_MARGIN_MULT: 6
+RIGHT_MARGIN_MULT: 6
+
+# Absolute die size
+FP_SIZING: absolute
+
+# Small DEF template
+DIE_AREA: [0, 0, 500, 200]
+FP_DEF_TEMPLATE: dir::heichips25_template_small.def
+
+# Large DEF template
+#DIE_AREA: [0, 0, 500, 415]
+#FP_DEF_TEMPLATE: dir::def/heichips25_template_large.def
+
+# Don't use power rings or TopMetal2 layer
+PDN_MULTILAYER: false
+RT_MAX_LAYER: TopMetal1
+
+# Enable for better SystemVerilog support
+#USE_SLANG: true
