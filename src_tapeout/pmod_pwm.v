@@ -18,10 +18,10 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
-module pmod_pwm#(parameter width=16) (
+module pmod_pwm#(parameter width=12) (
     input wire clk,
     input wire rst_n,
-    input wire signed [11:0] sample,
+    input wire signed [width-1:0] sample,
 
     output reg pwm
 );
