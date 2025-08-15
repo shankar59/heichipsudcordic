@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module angle_cordic_12b_pmod#(parameter width = 12, CNT = 131072, freq_width = 13) (clk1, reset, freq, r, g, b, hsync, vsync, pwm_data,pwm_led, waveform_sel);
+module angle_cordic_12b_pmod#(parameter width = 12, CNT = 131072, freq_width = 13) (clk1, reset, freq, r, g, b, hsync, vsync, pwm_data, waveform_sel);
 
 // Inputs
   input clk1;
@@ -11,7 +11,6 @@ module angle_cordic_12b_pmod#(parameter width = 12, CNT = 131072, freq_width = 1
 
 //Outputs  
 output pwm_data;
-output pwm_led;
 output wire [1:0]   r;
 output wire [1:0]   g;
 output wire [1:0]   b;
@@ -52,7 +51,7 @@ wire  [width-1:0] sample;
 	 .SINout       (sine),
 	 .COSout       (cosine));
 	 
-	 assign sample = (waveform_sel == 2'b00) ? sine : (waveform_sel == 2'b01) ? cosine : (waveform_sel == 2'b10) ? tri_amp : sqr_amp;
+	assign sample = (waveform_sel_reg == 2'b00) ? sine : (waveform_sel_reg == 2'b01) ? cosine : (waveform_sel_reg == 2'b10) ? tri_amp : sqr_amp;
 	 
 	 //pmod_cont pmod_cont(.clock(clock),.cs(cs),.sclk(sclk), .resetn(reset_reg), .data(data),.datain(sine));
 		 pmod_pwm# (.width(width)) i_pwm(
@@ -65,7 +64,7 @@ wire  [width-1:0] sample;
     );
     
     
-	 assign pwm_led = pwm_data;
+	// assign pwm_led = pwm_data;
 	 
 	 
 	vga_top u_vga_top (
@@ -88,3 +87,4 @@ wire  [width-1:0] sample;
 	 
 
 endmodule
+
