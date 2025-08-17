@@ -2,7 +2,7 @@
 
 
 
-module angle_cordic_12b#(parameter width = 16, CNT = 131072, freq_width = 12) (clock, resetn, freq, SINout, COSout,tri_amp, sqr_amp);
+module angle_cordic_12b#(parameter width = 16, CNT = 262144, freq_width = 13) (clock, resetn, freq, SINout, COSout,tri_amp, sqr_amp);
 
   
 // Inputs
@@ -51,4 +51,5 @@ module angle_cordic_12b#(parameter width = 16, CNT = 131072, freq_width = 12) (c
 //	.probe4(SINout) // input wire [11:0]  probe4
 //);		
 		
+
 endmodule
