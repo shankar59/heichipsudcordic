@@ -10,10 +10,10 @@ module angle_cordic_12b#(parameter width = 16, CNT = 262144, freq_width = 13) (c
   input resetn;
   input [freq_width-1:0] freq;
   
-  output  signed [11:0] SINout;
-  output  signed [11:0] COSout;
-  output  signed [11:0] tri_amp;
-  output  signed [11:0] sqr_amp;
+  output reg signed [11:0] SINout;
+  output reg signed [11:0] COSout;
+  output reg signed [11:0] tri_amp;
+  output reg signed [11:0] sqr_amp;
   wire [11:0] x_start,y_start;
   
   wire [width-1:0] angle;
@@ -24,21 +24,21 @@ module angle_cordic_12b#(parameter width = 16, CNT = 262144, freq_width = 13) (c
   
   wire [11:0] tri_amp_wire, sqr_amp_wire;
   
-  assign tri_amp = tri_amp_wire;
-  assign sqr_amp = sqr_amp_wire;
-  assign SINout = SINout_wire;
-  assign COSout = COSout_wire;
+  //assign tri_amp = tri_amp_wire;
+  //assign sqr_amp = sqr_amp_wire;
+  //assign SINout = SINout_wire;
+  //assign COSout = COSout_wire;
   angle_gen_12b#(.width(width), .CNT(CNT), .freq_width(freq_width)) angle_gen(.clock(clock), .resetn(resetn), .freq(freq), .angle(angle), .x_start(x_start), .y_start(y_start),  .tri_amp(tri_amp_wire), .sqr_amp(sqr_amp_wire));
   
  cordic_12b#(.width(width)) cordic(.clk(clock), .resetn(resetn), .SINout(SINout_wire), .COSout(COSout_wire), .x_start(x_start), .y_start(y_start), .angle(angle));
  
-//  always @ (posedge clock)
-//		begin
-//			SINout <= (!resetn) ? 0 : SINout_wire;
-//			COSout <= (!resetn) ? 0 : COSout_wire;
-//			tri_amp <= (!resetn) ? 0 : tri_amp_wire;
-//			sqr_amp <= (!resetn) ? 0 : sqr_amp_wire;
-//		end
+  always @ (posedge clock)
+		begin
+			SINout <= (!resetn) ? 0 : SINout_wire;
+			COSout <= (!resetn) ? 0 : COSout_wire;
+			tri_amp <= (!resetn) ? 0 : tri_amp_wire;
+			sqr_amp <= (!resetn) ? 0 : sqr_amp_wire;
+		end
 		
 //ila_0 ila (
 //	.clk(clock), // input wire clk
@@ -53,3 +53,4 @@ module angle_cordic_12b#(parameter width = 16, CNT = 262144, freq_width = 13) (c
 		
 
 endmodule
+
