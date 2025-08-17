@@ -15,13 +15,17 @@ module heichips25_CORDIC (
     input  wire       clk,      // clock
     input  wire       rst_n     // reset_n - low to reset
 );
-    wire _unused = &{ena, uio_in[7], uio_out[7:0]};
-    wire reset = !rst_n;
+    wire _unused = &{ena, uio_in[7]}; 
+    wire reset;
+    assign reset = !rst_n;
     wire pwm_data;
-    wire [12:0] freq_in = {uio_in[4:0],ui_in[7:0]};
-    wire [1:0] waveform_sel = uio_in[6:5];
+    wire [12:0] freq_in;
+    assign freq_in = {uio_in[4:0],ui_in[7:0]};
+    wire [1:0] waveform_sel;
+
+    assign waveform_sel = uio_in[6:5];
     //wire pwm_data = {uio_out[7]};
-    //assign uio_out[7] = pwm_data;
+    assign uio_out[7] = pwm_data;
 
     wire [1:0] r_sig;
     wire [1:0] g_sig;
@@ -56,8 +60,8 @@ module heichips25_CORDIC (
     .hsync       (hsync_sig),       // Horizontal sync
     .vsync       (vsync_sig)        // Vertical sync
 );
-
-    assign uio_oe  = 8'b0;
+    assign uio_out[6:0] = 7'b0;
+    assign uio_oe  = 8'b10000000;
 
 
 endmodule
