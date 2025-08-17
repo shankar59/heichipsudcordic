@@ -2,7 +2,7 @@
 
 
 
-module angle_gen_12b#(parameter width = 12, CNT = 131072, freq_width = 13) (clock, resetn, freq, angle, x_start, y_start, tri_amp, sqr_amp);
+module angle_gen_12b#(parameter width = 12, CNT = 262144, freq_width = 13) (clock, resetn, freq, angle, x_start, y_start, tri_amp, sqr_amp);
 
   
 
@@ -84,4 +84,5 @@ module angle_gen_12b#(parameter width = 12, CNT = 131072, freq_width = 13) (cloc
     else sqr_amp <= 12'd0;
 	end
 	
+
 endmodule
