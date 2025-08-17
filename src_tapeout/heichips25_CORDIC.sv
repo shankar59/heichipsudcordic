@@ -44,7 +44,7 @@ module heichips25_CORDIC (
     // Instantiate angle_cordic_12b_pmod
     angle_cordic_12b_pmod #(
     .width(12),       // Data width
-    .CNT(131072),     // Counter max
+		.CNT(262144),     // Counter max
     .freq_width(13)   // Frequency input width
 )   u_angle_cordic_12b_pmod (
     .clk1        (clk),        // Connect your clock signal
