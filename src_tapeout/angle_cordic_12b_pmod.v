@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module angle_cordic_12b_pmod#(parameter width = 12, CNT = 131072, freq_width = 13) (clk1, reset, freq, r, g, b, hsync, vsync, pwm_data, waveform_sel);
+module angle_cordic_12b_pmod#(parameter width = 12, CNT = 262144, freq_width = 13) (clk1, reset, freq, r, g, b, hsync, vsync, pwm_data, waveform_sel);
 
 // Inputs
   input clk1;
@@ -85,3 +85,4 @@ wire  [width-1:0] sample;
 	 
 
 endmodule
+
