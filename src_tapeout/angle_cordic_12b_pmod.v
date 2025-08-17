@@ -70,11 +70,8 @@ wire  [width-1:0] sample;
 	 
 	vga_top u_vga_top (
         .clk100(clk1),
-		.reset(reset_reg),
-        .mode(1'b0),
-		.cordic_val(sample),
-		.cosine_val(cosine),
-		.sine_val(sine),
+	.reset(reset_reg),
+	.cordic_val(sample),
         .r(r),
         .g(g),
         .b(b),
